@@ -1,0 +1,16 @@
+#APACHE
+server:
+  port: 7070
+
+#CONFIG SERVER
+spring:
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/ggamco/SpringConfig
+  security:
+    user:
+      name: user
+      password: password
+#spring.cloud.config.server.git.basedir=
