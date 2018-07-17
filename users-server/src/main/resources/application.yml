@@ -20,3 +20,25 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     preferIpAddress: true
+
+
+#H2 AND JPA CONFIG
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    username: root
+    password: root
+    driver-class-name: org.h2.Driver
+    url: jbc:h2:mem:microservices-test
