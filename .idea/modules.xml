@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/config-server/config-server.iml" filepath="$PROJECT_DIR$/config-server/config-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/invoice-server/invoice-server.iml" filepath="$PROJECT_DIR$/invoice-server/invoice-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/products-server/products-server.iml" filepath="$PROJECT_DIR$/products-server/products-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/spring-microservices-test.iml" filepath="$PROJECT_DIR$/.idea/spring-microservices-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/users-server/users-server.iml" filepath="$PROJECT_DIR$/users-server/users-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zuul-server/zuul-server.iml" filepath="$PROJECT_DIR$/zuul-server/zuul-server.iml" />
+    </modules>
+  </component>
+</project>
