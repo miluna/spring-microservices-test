@@ -13,6 +13,6 @@ eureka:
     preferIpAddress: true
 
 #Ribbon Activation
-ribbon:
-  eureka:
-    enabled: true
+#ribbon:
+#  eureka:
+#    enabled: true

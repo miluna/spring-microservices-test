@@ -4,9 +4,12 @@ package com.mla.usersserver.service;
 import com.mla.usersserver.api.dto.UserDTO;
 import com.mla.usersserver.entities.UserEntity;
 import com.mla.usersserver.repositories.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +24,9 @@ public class UserService implements IUserService{
         UserEntity user = new UserEntity();
         user.setUsername(name);
         // HASH THE PASSWORD
-        user.setPassword(password);
+        String hash = new BCryptPasswordEncoder().encode(password);
+
+        user.setPassword(hash);
         user.setEmail(email);
 
         UserEntity result = userRepository.save(user);
@@ -29,28 +34,76 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public UserDTO deleteUser(String name) {
+    public UserDTO deleteUser(Long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
 
-        return null;
+        if (user.isPresent()){
+            userRepository.delete(user.get());
+        }
+
+        UserDTO erased = new UserDTO();
+        erased.setId(id);
+
+        return erased;
     }
 
     @Override
-    public UserDTO updateUserName(String name) {
-        return null;
+    public UserDTO updateUserName(Long id, String name) {
+        Optional<UserEntity> user = userRepository.findById(id);
+
+        UserDTO userDTO = null;
+        if (user.isPresent()){
+            user.get().setUsername(name);
+
+            userDTO = new UserDTO(
+                    user.get().getId(),
+                    user.get().getUsername(),
+                    user.get().getPassword(),
+                    user.get().getEmail()
+            );
+        }
+
+        return userDTO;
     }
 
     @Override
-    public UserDTO updateUserPassword(String password) {
-        return null;
+    public UserDTO updateUserPassword(Long id, String password) {
+        Optional<UserEntity> user = userRepository.findById(id);
+
+        UserDTO userDTO = null;
+        if (user.isPresent()){
+            String hash = new BCryptPasswordEncoder().encode(password);
+            user.get().setPassword(hash);
+
+            userDTO = new UserDTO(
+                    user.get().getId(),
+                    user.get().getUsername(),
+                    user.get().getPassword(),
+                    user.get().getEmail()
+            );
+        }
+
+        return userDTO;
     }
 
     @Override
     public UserDTO getUser(String name, String password) {
         // HASH THE PASSWORD
-        UserEntity userEntity = userRepository.findUserEntityByUserAndPass(name, password);
+        String hash = new BCryptPasswordEncoder().encode(password);
+//        Optional<UserEntity> user = userRepository.findUserEntityByUserAndPass(name, hash);
+        Optional<UserEntity> user = null;
 
+        UserDTO userDTO = null;
+        if (user.isPresent()){
+            userDTO = new UserDTO(
+                    user.get().getId(),
+                    user.get().getUsername(),
+                    user.get().getPassword(),
+                    user.get().getEmail()
+            );
+        }
 
-        return null;
+        return userDTO;
     }
 
     @Override
@@ -70,7 +123,15 @@ public class UserService implements IUserService{
 
     @Override
     public List<UserDTO> getUsers() {
-//        List<UserEntity> list =
-        return null;
+        List<UserEntity> list = userRepository.findAll();
+
+        List<UserDTO> returnedList = new ArrayList<>();
+        list.forEach(userEntity -> returnedList.add(new UserDTO(
+                userEntity.getId(),
+                userEntity.getUsername(),
+                userEntity.getPassword(),
+                userEntity.getEmail())));
+
+        return returnedList;
     }
 }

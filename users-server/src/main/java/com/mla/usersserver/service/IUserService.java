@@ -12,11 +12,11 @@ public interface IUserService {
 
     UserDTO getUser(Long id);
 
-    UserDTO deleteUser(String name);
+    UserDTO deleteUser(Long id);
 
-    UserDTO updateUserName(String name);
+    UserDTO updateUserName(Long id, String name);
 
-    UserDTO updateUserPassword(String password);
+    UserDTO updateUserPassword(Long id, String password);
 
     List<UserDTO> getUsers();
 

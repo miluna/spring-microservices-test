@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
-@RestController("/user")
+@RestController("/")
 public class UserController {
 
     @Autowired
@@ -26,8 +26,8 @@ public class UserController {
         return null;
     }
 
-    @RequestMapping(name = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<UserDTO> getUser(@PathVariable(value = "id") Long id){
-        return ResponseEntity.ok(userService.getUser(id));
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<UserDTO> getUser(@PathVariable String id){
+        return ResponseEntity.ok(userService.getUser(Long.valueOf(id)));
     }
 }
