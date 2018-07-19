@@ -4,7 +4,6 @@ package com.mla.usersserver.service;
 import com.mla.usersserver.api.dto.UserDTO;
 import com.mla.usersserver.entities.UserEntity;
 import com.mla.usersserver.repositories.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service("UserService")
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -37,7 +36,7 @@ public class UserService implements IUserService{
     public UserDTO deleteUser(Long id) {
         Optional<UserEntity> user = userRepository.findById(id);
 
-        if (user.isPresent()){
+        if (user.isPresent()) {
             userRepository.delete(user.get());
         }
 
@@ -52,7 +51,7 @@ public class UserService implements IUserService{
         Optional<UserEntity> user = userRepository.findById(id);
 
         UserDTO userDTO = null;
-        if (user.isPresent()){
+        if (user.isPresent()) {
             user.get().setUsername(name);
 
             userDTO = new UserDTO(
@@ -71,7 +70,7 @@ public class UserService implements IUserService{
         Optional<UserEntity> user = userRepository.findById(id);
 
         UserDTO userDTO = null;
-        if (user.isPresent()){
+        if (user.isPresent()) {
             String hash = new BCryptPasswordEncoder().encode(password);
             user.get().setPassword(hash);
 
@@ -90,11 +89,10 @@ public class UserService implements IUserService{
     public UserDTO getUser(String name, String password) {
         // HASH THE PASSWORD
         String hash = new BCryptPasswordEncoder().encode(password);
-//        Optional<UserEntity> user = userRepository.findUserEntityByUserAndPass(name, hash);
-        Optional<UserEntity> user = null;
+        Optional<UserEntity> user = userRepository.findUserEntityByUserAndPass(name, hash);
 
         UserDTO userDTO = null;
-        if (user.isPresent()){
+        if (user.isPresent()) {
             userDTO = new UserDTO(
                     user.get().getId(),
                     user.get().getUsername(),
@@ -111,7 +109,7 @@ public class UserService implements IUserService{
         Optional<UserEntity> optional = userRepository.findById(id);
         UserDTO userDTO = null;
 
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             userDTO = new UserDTO(
                     optional.get().getId(),
                     optional.get().getUsername(),

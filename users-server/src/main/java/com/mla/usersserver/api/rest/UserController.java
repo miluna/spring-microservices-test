@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.net.URI;
 
 @RestController("/")
@@ -23,11 +25,23 @@ public class UserController {
     public ResponseEntity<URI> createUser(@RequestBody UserDTO userDTO){
         UserDTO result = userService.createUser(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail());
 
-        return null;
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/user/{id}")
+                .buildAndExpand(result.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public ResponseEntity<UserDTO> getUser(@PathVariable String id){
         return ResponseEntity.ok(userService.getUser(Long.valueOf(id)));
+    }
+
+    @RequestMapping(value = "/user/{name}/{password}", method = RequestMethod.GET)
+    public ResponseEntity<UserDTO> getRegisteredUser(@PathVariable String name, @PathVariable String password){
+        UserDTO result = userService.getUser(name, password);
+        return ResponseEntity.ok(result);
     }
 }
