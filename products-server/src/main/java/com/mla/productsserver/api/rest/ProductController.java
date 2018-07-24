@@ -27,7 +27,7 @@ public class ProductController {
         return ResponseEntity.ok(list);
     }
 
-    @RequestMapping(value = "/products/{idUser}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/products/{idUser}", method = RequestMethod.POST)
     public ResponseEntity<Void> createProductForUser(
             @RequestBody ProductDTO product,
             @PathVariable Long idUser) {

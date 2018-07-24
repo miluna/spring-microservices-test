@@ -1,6 +1,7 @@
 package com.mla.usersserver.api.rest;
 
 import com.mla.usersserver.api.dto.UserDTO;
+import com.mla.usersserver.entities.UserEntity;
 import com.mla.usersserver.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,9 +40,18 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(Long.valueOf(id)));
     }
 
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable Long id){
+        UserDTO result = userService.deleteUser(id);
+
+        return ResponseEntity.ok(result);
+    }
+
     @RequestMapping(value = "/user/{name}/{password}", method = RequestMethod.GET)
     public ResponseEntity<UserDTO> getRegisteredUser(@PathVariable String name, @PathVariable String password){
         UserDTO result = userService.getUser(name, password);
         return ResponseEntity.ok(result);
     }
+
+
 }

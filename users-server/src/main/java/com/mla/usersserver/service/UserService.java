@@ -3,10 +3,13 @@ package com.mla.usersserver.service;
 
 import com.mla.usersserver.api.dto.UserDTO;
 import com.mla.usersserver.entities.UserEntity;
+import com.mla.usersserver.feign.IProductFeign;
 import com.mla.usersserver.repositories.UserRepository;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private IProductFeign productFeign;
 
     @Override
     public UserDTO createUser(String name, String password, String email) {
@@ -33,17 +39,20 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @HystrixCommand(fallbackMethod = "")
     public UserDTO deleteUser(Long id) {
-        Optional<UserEntity> user = userRepository.findById(id);
+        userRepository.deleteById(id);
 
-        if (user.isPresent()) {
-            userRepository.delete(user.get());
-        }
+        // USING REST TEMPLATE
+//        new RestTemplate()
+//                .delete("http://localhost:8765/ms-products/product/{id}", id);
+        productFeign.deleteProductByUserId(id);
+        return new UserDTO();
+    }
 
-        UserDTO erased = new UserDTO();
-        erased.setId(id);
-
-        return erased;
+    public UserDTO deleteUserDefault(Long id){
+        System.out.println("Error during user delete");
+        return null;
     }
 
     @Override

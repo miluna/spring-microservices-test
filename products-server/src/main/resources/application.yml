@@ -1,19 +1,7 @@
-spring:
-  application:
-    name: ms-products
 
 #APACHE
 server:
   port: 8181
-
-#REFRESH_SCOPE CONFIG
-management:
-  security:
-    enabled: false
-  endpoints:
-    web:
-      exposure:
-        include: '*'
 
 #EUREKA
 eureka:
@@ -24,3 +12,24 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     preferIpAddress: true
+
+#H2 AND JPA CONFIG
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:microservices-test
