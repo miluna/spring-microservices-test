@@ -4,3 +4,6 @@
 [submodule "spring-zuul-server"]
 	path = spring-zuul-server
 	url = https://github.com/miluna/spring-zuul-server
+[submodule "spring-config-server"]
+	path = spring-config-server
+	url = https://github.com/miluna/spring-config-server
