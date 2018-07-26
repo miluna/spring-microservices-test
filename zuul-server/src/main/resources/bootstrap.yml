@@ -1,4 +1,0 @@
-#Spring Application Name
-spring:
-  application:
-    name: Zuul-Server
