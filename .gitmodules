@@ -1,0 +1,3 @@
+[submodule "spring-eureka-server"]
+	path = spring-eureka-server
+	url = https://github.com/miluna/spring-eureka-server
